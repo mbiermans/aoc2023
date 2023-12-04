@@ -2,6 +2,7 @@ import scala.util.matching.Regex
 import scala.io.Source
 
 val input = Source.fromFile("advent-of-code-2023/src/main/resources/day_01.txt").getLines.toList
+val input = Source.fromFile("advent-of-code-2023/src/main/resources/day_01.txt").getLines.toList
 
 val digits: Map[String, String] = (1 to 9).map(number => number.toString -> number.toString).toMap
 
