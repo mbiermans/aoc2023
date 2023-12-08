@@ -7,14 +7,20 @@ object Day04 extends App {
 
     val regex = """Card *(\d+): (.+) \| (.+)""".r
 
-
     val state = (
         for {
             (line, index) <- input.zipWithIndex if line.nonEmpty
             (card, picked, won) = line match {
                 case regex(c, p, w) => (c, p, w)
             }
-            overlap = picked.split(" ").filter(_.nonEmpty).map(_.toInt).intersect(won.split(" ").filter(_.nonEmpty).map(_.toInt)).toList
+            overlap = picked.split(" ")
+                .filter(_.nonEmpty)
+                .map(_.toInt)
+                .intersect(
+                    won.split(" ")
+                        .filter(_.nonEmpty)
+                        .map(_.toInt)
+                ).toList
         } yield card.toInt -> overlap.size
     ).toMap
 
@@ -23,10 +29,9 @@ object Day04 extends App {
         if(toCount.isEmpty){
             count + 1
         } else {
-            lookup.get(next) match {
-                case None      => accum(lookup)(count + 1, next = toCount.head, toCount = toCount.tail) 
-                case Some(0)   => accum(lookup)(count + 1, next = toCount.head, toCount = toCount.tail) 
-                case Some(x)   => {
+            lookup.getOrElse(next, 0) match {
+                case 0   => accum(lookup)(count + 1, next = toCount.head, toCount = toCount.tail) 
+                case x   => {
                     val n = (1 to x)
                         .map(_ + next)
                         .toList
